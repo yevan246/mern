@@ -1,8 +1,9 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { apiUrl } from './authApi'
 
 export const todoApiSlice = createApi({
     reducerPath: 'todoApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:5000/api/todos/'}),
+    baseQuery: fetchBaseQuery({baseUrl: `${apiUrl}/todos/`}),
     endpoints: (builder) => ({
         getTodos: builder.query({
             query: () => '/',
