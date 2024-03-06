@@ -1,5 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import { apiUrl } from './authApi'
+import { logoutUser, setUser } from '../features/userSlice'
+import { toast } from 'react-toastify'
 
 export const userApiSlice = createApi({
     reducerPath: 'userApi',
@@ -10,13 +12,21 @@ export const userApiSlice = createApi({
             if(token) {
                 headers.set('authorization', `Bearer ${token}`)
             }
-
             return headers
         }
     }),
     endpoints: (builder) => ({
         getMe: builder.query({
             query: () => '/getMe',
+            onQueryStarted: async (_, {dispatch, queryFulfilled}) => {
+                try {
+                    const {data} = await queryFulfilled;
+                    dispatch(setUser(data))
+                } catch(e) {
+                    toast.error(e.error.data.message)
+                    dispatch(logoutUser())
+                }
+            }
         }),
     })
 })

@@ -4,26 +4,10 @@ import Todos from './pages/Todos/Todos'
 import Signup from './pages/Signup/Signup'
 import Profile from './pages/Profile/Profile'
 import Login from './pages/Login/Login'
-import { useGetMeQuery } from './redux/api/userApi'
-import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
-import { setUser } from './redux/features/userSlice'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 function App() {
-  const {data, isLoading, isSuccess} = useGetMeQuery()
-  const dispatch = useDispatch()
-  console.log(data, isSuccess, isLoading);
-
-    if(isSuccess) {
-      dispatch(setUser(data))
-    }
-
-
-  if(!data) {
-    return 'Loading'
-  }
-
   return (
     <>
       <Header/>
@@ -32,7 +16,12 @@ function App() {
         <Route path='/' element={<Todos />}/>
         <Route path='/signup' element={<Signup />}/>
         <Route path='/login' element={<Login />}/>
-        <Route path='/profile' element={<Profile />}/>
+        
+        <Route path='/' element={<ProtectedRoute/>}>
+          <Route path='profile' element={<Profile />}/>
+          <Route path='settings' element={<Profile />}/>
+        </Route>
+
       </Routes>
     </>
   )
