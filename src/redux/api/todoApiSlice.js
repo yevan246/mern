@@ -3,7 +3,16 @@ import { apiUrl } from './authApi'
 
 export const todoApiSlice = createApi({
     reducerPath: 'todoApi',
-    baseQuery: fetchBaseQuery({baseUrl: `${apiUrl}/todos/`}),
+    baseQuery: fetchBaseQuery({
+        baseUrl: `${apiUrl}/todos/`,
+        prepareHeaders: (headers, {getState}) => {
+            const token = getState().user.token
+            if(token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        }
+    }),
     endpoints: (builder) => ({
         getTodos: builder.query({
             query: () => '/',

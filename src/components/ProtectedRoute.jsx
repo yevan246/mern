@@ -4,7 +4,7 @@ import { Navigate, Outlet } from "react-router-dom"
 import { useEffect } from "react"
 import { setUser } from "../redux/features/userSlice"
 
-export default function ProtectedRoute() {
+export default function ProtectedRoute({children}) {
     const token = localStorage.getItem('token')
     const {data, isLoading, isSuccess} = useGetMeQuery(null, {
         skip: token === null
@@ -25,7 +25,7 @@ export default function ProtectedRoute() {
     }
 
     if(isSuccess) {
-        return <Outlet />
+        return children
     }
 
 

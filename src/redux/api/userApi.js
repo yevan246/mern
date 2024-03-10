@@ -28,7 +28,17 @@ export const userApiSlice = createApi({
                 }
             }
         }),
+        
+        getUsers: builder.query({
+            query: ({page, limit}) => `/?page=${page}&limit=${limit}`
+        }),
+
+        getUserById: builder.query({
+            query: (id) => `/${id}`
+        }),
+
     })
+
 })
 
-export const {useGetMeQuery} = userApiSlice
+export const {useGetMeQuery, useGetUsersQuery, useGetUserByIdQuery} = userApiSlice
