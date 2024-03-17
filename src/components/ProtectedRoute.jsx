@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useGetMeQuery } from "../redux/api/userApi"
-import { Navigate, Outlet } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 import { useEffect } from "react"
 import { setUser } from "../redux/features/userSlice"
 

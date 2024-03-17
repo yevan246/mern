@@ -8,7 +8,6 @@ export default function DefaultLayout() {
         <Outlet />
 
         <footer>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, delectus?
         </footer>
     </>
   )
