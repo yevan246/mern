@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 export const userApiSlice = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${apiUrl}/users`,
+        baseUrl: `${apiUrl}/users`, // /users/asdsfsfsdf/posts
         prepareHeaders: (headers, {getState}) => {
             const token = getState().user.token
             if(token) {
@@ -28,6 +28,10 @@ export const userApiSlice = createApi({
                 }
             }
         }),
+
+        getPostsByUserId: builder.query({
+            query: ({userId, page, limit}) => `/${userId}/posts?page=${page}&limit=${limit}`
+        }),
         
         getUsers: builder.query({
             query: ({page, limit}) => `/?page=${page}&limit=${limit}`
@@ -41,4 +45,4 @@ export const userApiSlice = createApi({
 
 })
 
-export const {useGetMeQuery, useGetUsersQuery, useGetUserByIdQuery} = userApiSlice
+export const {useGetMeQuery, useGetUsersQuery, useGetUserByIdQuery, useGetPostsByUserIdQuery} = userApiSlice
