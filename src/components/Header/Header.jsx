@@ -9,8 +9,8 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-      <div className="shadow-xl">
-    <Container className='flex items-center justify-between	 lg:order-2 py-5 '>
+    <div className="shadow-xl">
+      <Container className="flex items-center justify-between	 lg:order-2 py-5 ">
         <NavLink
           className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50"
           to="/"
@@ -39,6 +39,7 @@ export default function Header() {
             </NavLink>
           </div>
         ) : (
+          <>
           <div
             className="flex items-center gap-2 relative"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -50,14 +51,53 @@ export default function Header() {
             />
             {user.username}
 
-            {isMenuOpen && (
-              <div className="absolute top-14 bg-white border border-black border-solid	 shadow-xl p-5 z-10">
-                bla bla bla
-              </div>
-            )}
           </div>
+            <div
+              id="dropdown"
+              style={{top: '80px', zIndex: 100}}
+              className={`z-10 ${!isMenuOpen ? 'hidden' : ''} shadow-xl absolute right-14 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+            >
+              <ul
+                className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                aria-labelledby="dropdownDefaultButton"
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Dashboard
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Settings
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Earnings
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    Sign out
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </>
         )}
-    </Container>
-      </div>
+      </Container>
+    </div>
   );
 }

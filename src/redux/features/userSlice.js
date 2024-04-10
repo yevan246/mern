@@ -16,6 +16,9 @@ export const userSlice = createSlice({
                 localStorage.setItem('token', action.payload.token)
             }
         },
+        updateUser: (state, action) => {
+            state.user = {...state.user, ...action.payload}
+        },
         logoutUser: (state) => {
             localStorage.removeItem('token')
             state = initialState
@@ -23,4 +26,4 @@ export const userSlice = createSlice({
     }
 })
 
-export const {setUser, logoutUser} = userSlice.actions
+export const {setUser, updateUser, logoutUser} = userSlice.actions
