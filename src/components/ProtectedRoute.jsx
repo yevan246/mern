@@ -1,33 +1,21 @@
-import { useDispatch } from "react-redux"
-import { useGetMeQuery } from "../redux/api/userApi"
-import { Navigate } from "react-router-dom"
-import { useEffect } from "react"
-import { setUser } from "../redux/features/userSlice"
+import { useSelector } from "react-redux";
+import { useGetMeQuery } from "../redux/api/userApi";
+import { Navigate } from "react-router-dom";
 
-export default function ProtectedRoute({children}) {
-    const token = localStorage.getItem('token')
-    const {data, isLoading, isSuccess} = useGetMeQuery(null, {
-        skip: token === null
-    })
+export default function ProtectedRoute({ children }) {
+  const token = localStorage.getItem("token");
+  const { isLoading, isSuccess } = useGetMeQuery(null, {
+    skip: token === null,
+  });
+  const { user } = useSelector((state) => state.user);
 
-    // console.log(isLoading, isFetching);
+  if (isLoading) {
+    return "Loading...";
+  }
 
-    const dispatch = useDispatch()
+  if (isSuccess && user) {
+    return children;
+  }
 
-    useEffect(() => {
-        if(data && isSuccess) {
-            dispatch(setUser(data))
-        }
-    }, [isSuccess, data, dispatch])
-
-    if(isLoading) {
-        return  'Loading...'
-    }
-
-    if(isSuccess) {
-        return children
-    }
-
-
-  return <Navigate to='/login' />
+  return <Navigate to="/login" />;
 }

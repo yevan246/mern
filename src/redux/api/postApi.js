@@ -37,9 +37,17 @@ export const postApiSlice = createApi({
 
             }
         }),
+        deletePost: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `/${id}`,
+                    method: 'DELETE'
+                }
+            }
+        })
 
     })
 
 })
 
-export const {useUploadPhotoMutation, useCreatePostMutation} = postApiSlice
+export const {useUploadPhotoMutation, useCreatePostMutation, useDeletePostMutation} = postApiSlice

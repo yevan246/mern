@@ -1,15 +1,33 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { filesServerUrl } from "../../redux/api/authApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "../Container/Container";
+import { logoutUser } from "../../redux/features/userSlice";
 
 export default function Header() {
   const { user } = useSelector((state) => state.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dispatch = useDispatch();
+
+  const clickEventListener = () => {
+    setIsMenuOpen(false)      
+  }
+
+  useEffect(() => {
+    if(isMenuOpen) {
+      setTimeout(() => document.addEventListener('click', clickEventListener), 1)
+    }
+    return () => document.removeEventListener('click', clickEventListener)
+  }, [isMenuOpen])
+
+  const userLogout = (e) => {
+    e.preventDefault()
+    dispatch(logoutUser())
+  }
 
   return (
-    <div className="shadow-xl">
+    <div className="shadow-xl bg-white">
       <Container className="flex items-center justify-between	 lg:order-2 py-5 ">
         <NavLink
           className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50"
@@ -62,36 +80,22 @@ export default function Header() {
                 aria-labelledby="dropdownDefaultButton"
               >
                 <li>
-                  <a
-                    href="#"
+                  <NavLink
+                    to="/profile"
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
-                    Dashboard
-                  </a>
+                    Profile
+                  </NavLink>
                 </li>
+               
                 <li>
-                  <a
-                    href="#"
+                  <NavLink
+                    to="#"
                     className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Earnings
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={userLogout}
                   >
                     Sign out
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
