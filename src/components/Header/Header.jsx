@@ -11,20 +11,23 @@ export default function Header() {
   const dispatch = useDispatch();
 
   const clickEventListener = () => {
-    setIsMenuOpen(false)      
-  }
+    setIsMenuOpen(false);
+  };
 
   useEffect(() => {
-    if(isMenuOpen) {
-      setTimeout(() => document.addEventListener('click', clickEventListener), 1)
+    if (isMenuOpen) {
+      setTimeout(
+        () => document.addEventListener("click", clickEventListener),
+        1
+      );
     }
-    return () => document.removeEventListener('click', clickEventListener)
-  }, [isMenuOpen])
+    return () => document.removeEventListener("click", clickEventListener);
+  }, [isMenuOpen]);
 
   const userLogout = (e) => {
-    e.preventDefault()
-    dispatch(logoutUser())
-  }
+    e.preventDefault();
+    dispatch(logoutUser());
+  };
 
   return (
     <div className="shadow-xl bg-white">
@@ -57,23 +60,30 @@ export default function Header() {
             </NavLink>
           </div>
         ) : (
-          <>
-          <div
-            className="flex items-center gap-2 relative"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <img
-              className="w-10 h-10 rounded-full"
-              src={`${filesServerUrl}/avatar/${user.avatar}`}
-              alt=""
-            />
-            {user.username}
-
-          </div>
+          <div className="relative">
+            <div
+              className="flex items-center gap-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <img
+                className="w-10 h-10 rounded-full"
+                src={`${filesServerUrl}/avatar/${user.avatar}`}
+                alt=""
+              />
+              {user.username}
+            </div>
             <div
               id="dropdown"
-              style={{top: '80px', zIndex: 100}}
-              className={`z-10 ${!isMenuOpen ? 'hidden' : ''} shadow-xl absolute right-14 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+              style={{
+                top: "55px",
+                zIndex: 100,
+                right: "-60px",
+                border: "1px solid rgb(226, 226, 226)",
+                borderRadius: "4px",
+              }}
+              className={`z-10 ${
+                !isMenuOpen ? "hidden" : ""
+              } shadow-xl absolute bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -87,7 +97,7 @@ export default function Header() {
                     Profile
                   </NavLink>
                 </li>
-               
+
                 <li>
                   <NavLink
                     to="#"
@@ -99,7 +109,7 @@ export default function Header() {
                 </li>
               </ul>
             </div>
-          </>
+          </div>
         )}
       </Container>
     </div>

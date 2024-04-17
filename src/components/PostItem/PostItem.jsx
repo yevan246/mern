@@ -3,10 +3,12 @@ import { filesServerUrl } from "../../redux/api/authApi";
 import { useState } from "react";
 import { useDeletePostMutation } from "../../redux/api/postApi";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 export default function PostItem({ post = {} }) {
   const [showDropDown, setShowDropDown] = useState(false);
   const [deletePost] = useDeletePostMutation();
+  const userId = useSelector((state) => state.user.user._id);
 
   const creationDate = new Date(post.createdAt);
   const month = [
@@ -32,9 +34,11 @@ export default function PostItem({ post = {} }) {
     creationMinutes < 10 ? `0${creationMinutes}` : creationMinutes;
 
   const handleDeletePost = async () => {
-    const confirm = window.confirm("Are you sure you want to delete this post?");
+    const confirm = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
     if (!confirm) return;
-    
+
     try {
       await deletePost(post._id).unwrap();
       toast.success("Post was deleted!", {
@@ -103,19 +107,24 @@ export default function PostItem({ post = {} }) {
             className="py-1 text-sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownMenuIconHorizontalButton"
           >
-            <li>
-              <div className="block py-2 px-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                Edit
-              </div>
-            </li>
-            <li>
-              <div
-                className="block py-2 px-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                onClick={handleDeletePost}
-              >
-                Remove
-              </div>
-            </li>
+            {userId === post.user._id && (
+              <>
+                <li>
+                  <div className="block py-2 px-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                    Edit
+                  </div>
+                </li>
+                <li>
+                  <div
+                    className="block py-2 px-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={handleDeletePost}
+                  >
+                    Remove
+                  </div>
+                </li>
+              </>
+            )}
+
             <li>
               <div className="block py-2 px-4 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                 Report

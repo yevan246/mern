@@ -25,7 +25,10 @@ export default function Profile() {
     page: 1,
     limit: 10,
   });
-  console.log(posts);
+  const {userPosts, isUserPostsLoading} = useSelector((state) => state.posts);
+  
+  console.log('userPosts', userPosts);
+  console.log('isUserPostsLoading', isUserPostsLoading);
 
   const handleImageUpload = async (e) => {
     try {
@@ -119,7 +122,7 @@ export default function Profile() {
             </button>
           </form>
           <div>
-            {posts.map((post) => (
+            {userPosts.map((post) => (
               <PostItem post={post} key={post._id} />
             ))}
           </div>

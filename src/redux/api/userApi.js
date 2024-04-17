@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { apiUrl } from "./authApi";
 import { logoutUser, setUser, updateUser } from "../features/userSlice";
 import { toast } from "react-toastify";
+import { setUserPosts, setUserPostsLoading } from "../features/postsSlice";
 
 export const userApiSlice = createApi({
   reducerPath: "userApi",
@@ -32,6 +33,16 @@ export const userApiSlice = createApi({
     getPostsByUserId: builder.query({
       query: ({ userId, page, limit }) =>
         `/${userId}/posts?page=${page}&limit=${limit}`,
+        onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+          try {
+            dispatch(setUserPostsLoading(true));
+            const {data} = await queryFulfilled;
+            dispatch(setUserPosts(data));
+            dispatch(setUserPostsLoading(false));
+          } catch (e) {
+            toast.error(e.error.data.message);
+          }
+        },
     }),
 
     getUsers: builder.query({
@@ -56,7 +67,7 @@ export const userApiSlice = createApi({
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          dispatch(updateUser({avatar: data.file}));
+          dispatch(updateUser({ avatar: data.file }));
         } catch (e) {
           toast.error(e.error.data.message);
         }
@@ -65,10 +76,11 @@ export const userApiSlice = createApi({
   }),
 });
 
+
 export const {
   useGetMeQuery,
   useGetUsersQuery,
   useGetUserByIdQuery,
   useGetPostsByUserIdQuery,
-  useUploadProfileAvatarMutation
+  useUploadProfileAvatarMutation,
 } = userApiSlice;

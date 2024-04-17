@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 // const TO_RADIANS = Math.PI / 180;
 
-async function canvasPreview(image, canvas, crop, scale = 1, rotate = 0) {
+async function canvasPreview(image, canvas, crop, scale = 1,) {
   const ctx = canvas.getContext("2d");
 
   if (!ctx) {

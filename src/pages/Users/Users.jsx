@@ -1,3 +1,4 @@
+import Container from "../../components/Container/Container";
 import UserItem from "../../components/UserItem/UserItem";
 import { useGetUsersQuery } from "../../redux/api/userApi";
 
@@ -8,10 +9,12 @@ export default function Users() {
   }
 
   return (
-    <div>
+    <Container>
+      <div className="flex flex-wrap justify-between">
       {users.map((user) => (
         <UserItem key={user._id} user={user} />
       ))}
-    </div>
+      </div>
+    </Container>
   );
 }
