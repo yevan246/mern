@@ -53,6 +53,23 @@ export const postApiSlice = createApi({
         };
       },
     }),
+    likePost: builder.mutation({
+      query: (postId) => {
+        return {
+          url: `${postId}/like`,
+          method: "POST"
+        };
+      },
+      // onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+      //   try {
+      //     const {data} = await queryFulfilled;
+      //     dispatch(addUserPost(data.post));
+      //   } catch (e) {
+      //     toast.error(e.error.data.message);
+      //   }
+      // },
+    }),
+
   }),
 });
 
@@ -60,4 +77,5 @@ export const {
   useUploadPhotoMutation,
   useCreatePostMutation,
   useDeletePostMutation,
+  useLikePostMutation
 } = postApiSlice;
