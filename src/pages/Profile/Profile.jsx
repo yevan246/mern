@@ -20,7 +20,7 @@ export default function Profile() {
 
   const [uploadPhoto] = useUploadPhotoMutation();
   const [createPost] = useCreatePostMutation();
-  const { data: posts = [] } = useGetPostsByUserIdQuery({
+  useGetPostsByUserIdQuery({
     userId: user._id,
     page: 1,
     limit: 10,

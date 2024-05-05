@@ -3,17 +3,20 @@ import { useGetPostsByUserIdQuery, useGetUserByIdQuery } from "../../redux/api/u
 import { filesServerUrl } from "../../redux/api/authApi";
 import Container from "../../components/Container/Container";
 import PostItem from "../../components/PostItem/PostItem";
+import { useSelector } from "react-redux";
 
 export default function User() {
   const { id } = useParams();
 
   const { data: user, isLoading } = useGetUserByIdQuery(id);
   
-  const { data: posts = [] } = useGetPostsByUserIdQuery({
+  useGetPostsByUserIdQuery({
     userId: id,
     page: 1,
     limit: 10,
   });
+
+  const {userPosts} = useSelector((state) => state.posts);
 
   if (isLoading) {
     return "Loading...";
@@ -26,7 +29,7 @@ export default function User() {
           <b>{user.username}</b>
         </div>
         <div>
-          {posts.map((post) => <PostItem post={post} key={post._id} />)}
+          {userPosts.map((post) => <PostItem post={post} key={post._id} />)}
         </div>
       </div>
     </Container>
