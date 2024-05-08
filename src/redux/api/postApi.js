@@ -69,7 +69,23 @@ export const postApiSlice = createApi({
         }
       },
     }),
-
+    createComment: builder.mutation({
+      query: ({postId, text}) => {
+        return {
+          url: `${postId}/comment`,
+          method: "POST",
+          body: {text}
+        };
+      },
+      // onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+      //   try {
+      //     const {data} = await queryFulfilled;
+      //     dispatch(updatePost(data));
+      //   } catch (e) {
+      //     toast.error(e.error.data.message);
+      //   }
+      // },
+    }),
   }),
 });
 
@@ -77,5 +93,6 @@ export const {
   useUploadPhotoMutation,
   useCreatePostMutation,
   useDeletePostMutation,
-  useLikePostMutation
+  useLikePostMutation,
+  useCreateCommentMutation
 } = postApiSlice;
