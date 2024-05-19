@@ -38,9 +38,10 @@ export const PostProvider = ({
     }
   };
 
-  const handlePostComment = async (values) => {
+  const handlePostComment = async (values, reset) => {
     try {
       await createComment({ postId: post._id, text: values.comment }).unwrap();
+      reset()
     } catch (e) {
       toast.error(e.error.data.message);
     }

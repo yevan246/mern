@@ -26,13 +26,24 @@ export const postsSlice = createSlice({
       );
 
       if (postIndex !== -1) {
-        for(const key in data) {
-            state.userPosts[postIndex][key] = data[key]
+        for (const key in data) {
+          state.userPosts[postIndex][key] = data[key];
         }
       }
+    },
+    addComment: (state, action) => {
+      const postIndex = state.userPosts.findIndex(
+        (post) => post._id === action.payload.post
+      );
+      state.userPosts[postIndex].comments.unshift(action.payload);
     },
   },
 });
 
-export const { setUserPosts, addUserPost, setUserPostsLoading, updatePost } =
-  postsSlice.actions;
+export const { 
+  setUserPosts,
+  addUserPost,
+  setUserPostsLoading,
+  updatePost,
+  addComment
+} =  postsSlice.actions;

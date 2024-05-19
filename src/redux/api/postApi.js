@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { apiUrl } from "./authApi";
 import { toast } from "react-toastify";
-import { addUserPost, updatePost } from "../features/postsSlice";
+import { addComment, addUserPost, updatePost } from "../features/postsSlice";
 
 export const postApiSlice = createApi({
   reducerPath: "postApi",
@@ -77,14 +77,14 @@ export const postApiSlice = createApi({
           body: {text}
         };
       },
-      // onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
-      //   try {
-      //     const {data} = await queryFulfilled;
-      //     dispatch(updatePost(data));
-      //   } catch (e) {
-      //     toast.error(e.error.data.message);
-      //   }
-      // },
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          const {data} = await queryFulfilled;
+          dispatch(addComment(data));
+        } catch (e) {
+          toast.error(e.error.data.message);
+        }
+      },
     }),
   }),
 });

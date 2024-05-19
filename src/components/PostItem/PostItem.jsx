@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import Post from "./PostElemets/Post";
+import Post from "./PostElements/Post";
 
 export default function PostItem({ post = {} }) {
   return (
