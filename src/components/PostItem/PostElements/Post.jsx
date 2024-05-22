@@ -18,7 +18,7 @@ function Post({children, post}) {
   return (
     <article
       style={{ border: "1px solid #e2e2e2", borderRadius: "4px" }}
-      className="pl-6 pr-6 pt-4 pb-3 mt-4 text-base relative bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+      className="pl-6 pr-6 pt-4 pb-3 mb-4 w-96 text-base relative bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900"
     >
       <PostProvider post={post} createComment={createComment} deletePost={deletePost} likePost={likePost}>
         {children}
