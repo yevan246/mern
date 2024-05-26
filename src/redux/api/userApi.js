@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { apiUrl } from "./authApi";
-import { logoutUser, setUser, updateUser } from "../features/userSlice";
+import { logoutUser, setUser, updateFollowers, updateUser } from "../features/userSlice";
 import { toast } from "react-toastify";
 import { setUserPosts, setUserPostsLoading } from "../features/postsSlice";
 
@@ -73,6 +73,21 @@ export const userApiSlice = createApi({
         }
       },
     }),
+
+    followUser: builder.mutation({
+      query: (userId) => ({
+          url: `/${userId}/follow`,
+          method:"POST"
+      }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(updateFollowers(data.result));
+        } catch (e) {
+          toast.error(e.error.data.message);
+        }
+      }
+    })
   }),
 });
 
@@ -83,4 +98,5 @@ export const {
   useGetUserByIdQuery,
   useGetPostsByUserIdQuery,
   useUploadProfileAvatarMutation,
+  useFollowUserMutation
 } = userApiSlice;

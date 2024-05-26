@@ -1,5 +1,6 @@
 import { Navigate, useParams } from "react-router-dom";
 import {
+  useFollowUserMutation,
   useGetPostsByUserIdQuery,
   useGetUserByIdQuery,
 } from "../../redux/api/userApi";
@@ -7,12 +8,14 @@ import { filesServerUrl } from "../../redux/api/authApi";
 import Container from "../../components/Container/Container";
 import PostItem from "../../components/PostItem/PostItem";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function User() {
   const { id } = useParams();
   const userId = useSelector(store => store.user.user._id)
   
-  const { data: user, isLoading } = useGetUserByIdQuery(id);
+  const { data: user, isLoading, refetch } = useGetUserByIdQuery(id);
+  const [ followUser ] = useFollowUserMutation()
 
   useGetPostsByUserIdQuery({
     userId: id,
@@ -21,6 +24,16 @@ export default function User() {
   });
 
   const { userPosts } = useSelector((state) => state.posts);
+
+  const followUserHandler = async () => {
+    try {
+      await followUser(id).unwrap()
+      refetch()
+    } catch (e) {
+      toast.error(e.error.data.message);
+
+    }
+  }
 
   if(userId === id) {
     return <Navigate to='/profile' />
@@ -42,6 +55,7 @@ export default function User() {
           <div className="text-gray-600 mb-1">Followers: {user.followers}</div>
           <div className="text-gray-600 mb-4">Following: {user.following}</div>
           <button
+            onClick={followUserHandler}
             className={`px-4 py-2 rounded-lg text-white ${
               user.isFollowedByTarget
                 ? "bg-red-500 hover:bg-red-600"

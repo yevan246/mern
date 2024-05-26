@@ -19,6 +19,9 @@ export const userSlice = createSlice({
         updateUser: (state, action) => {
             state.user = {...state.user, ...action.payload}
         },
+        updateFollowers: (state, action) => {
+            state.user.following += action.payload
+        },
         logoutUser: (state) => {
             localStorage.removeItem('token')
             state.user = null
@@ -27,4 +30,4 @@ export const userSlice = createSlice({
     }
 })
 
-export const {setUser, updateUser, logoutUser} = userSlice.actions
+export const {setUser, updateUser, logoutUser, updateFollowers} = userSlice.actions

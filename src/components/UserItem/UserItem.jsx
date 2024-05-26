@@ -34,9 +34,6 @@ export default function UserItem({ user }) {
         <p className="mb-1 text-sm text-neutral-600 dark:text-neutral-200">
           Registered at: {registeredAtDate}
         </p>
-        <h5 className="mb-2 text-sm font-bold leading-tight text-neutral-800 dark:text-neutral-50">
-          Price per night
-        </h5>
       </div>
     </NavLink>
   );
