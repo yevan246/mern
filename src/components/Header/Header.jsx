@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { filesServerUrl } from "../../redux/api/authApi";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Container from "../Container/Container";
 import { logoutUser } from "../../redux/features/userSlice";
 
@@ -9,20 +9,27 @@ export default function Header() {
   const { user } = useSelector((state) => state.user);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const menuRef = useRef(null)
+  const location = useLocation();
 
-  const clickEventListener = () => {
-    setIsMenuOpen(false);
+  const clickEventListener = (e) => {
+    if(menuRef.current && !menuRef.current.contains(e.target)) {
+      setIsMenuOpen(false);
+    }
   };
 
   useEffect(() => {
-    if (isMenuOpen) {
-      setTimeout(
-        () => document.addEventListener("click", clickEventListener),
-        1
-      );
+  if (isMenuOpen) {
+      document.addEventListener("click", clickEventListener)
+    } else {
+      document.removeEventListener("click", clickEventListener);
     }
     return () => document.removeEventListener("click", clickEventListener);
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname])
 
   const userLogout = (e) => {
     e.preventDefault();
@@ -60,7 +67,9 @@ export default function Header() {
             </NavLink>
           </div>
         ) : (
-          <div className="relative">
+          <div className="relative"
+          ref={menuRef}
+          >
             <div
               className="flex items-center gap-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}

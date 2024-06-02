@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Users from './pages/Users/Users'
 import User from './pages/User/User'
 import DefaultLayout from './layout/DefaultLayout'
+import Chat from './pages/Chat/Chat'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path='settings' element={<Profile />}/>
           <Route path='users' element={<Users />}/>
           <Route path='users/:id' element={<User />}/>
+          <Route path='chat' element={<Chat />}/>
         </Route>
 
       </Routes>
